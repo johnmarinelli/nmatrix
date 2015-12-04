@@ -1019,8 +1019,38 @@ class NMatrix
     new_matrix
   end
 
+  def definite_check(&cmp)
+    # first check if it's a square matrix
+    return false unless shape[0] == shape[1]
+
+    n = shape[0]
+    0.upto n - 1 do |i|
+      #return false unless self[i, i] > 0
+      return false unless cmp.call(self[i, i])
+
+      # create upperleft submatrix of [i + 1, i + 1] corner of this matrix
+      # How can I make this take less space? If the matrix is 10e12x10e12, then algorithm is O(1 trillion)
+      sub = self[0..i, 0..i]
+      return false unless cmp.call(sub.det)
+    end
+
+    true
+  end
+
   def positive_definite?
-    false
+    # check if all diagonal entries are positive
+    definite_check { |x| x > 0 }
+  end
+
+  # TODO: WRITE TESTS FOR THIS
+  def positive_semidefinite?
+    # check if all diagonal entries are nonnegative
+    definite_check { |x| x >= 0 }
+  end
+
+  # TODO: WRITE TESTS FOR THIS
+  def negative_definite?
+    definite_check { |x| < 0 }
   end
 
   # This is how you write an individual element-wise operation function:
