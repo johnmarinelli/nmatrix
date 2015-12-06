@@ -1020,16 +1020,18 @@ class NMatrix
   end
 
   def definite_check(&cmp)
+    # sylvesters theorem
     # first check if it's a square matrix
     return false unless shape[0] == shape[1]
 
     n = shape[0]
     0.upto n - 1 do |i|
-      #return false unless self[i, i] > 0
+      # do comparison
       return false unless cmp.call(self[i, i])
 
       # create upperleft submatrix of [i + 1, i + 1] corner of this matrix
       # How can I make this take less space? If the matrix is 10e12x10e12, then algorithm is O(1 trillion)
+      # this blows up at n ~= 10000, and NMatrix::LAPACK.geev takes a while for n = 1000
       sub = self[0..i, 0..i]
       return false unless cmp.call(sub.det)
     end
@@ -1039,7 +1041,35 @@ class NMatrix
 
   def positive_definite?
     # check if all diagonal entries are positive
-    definite_check { |x| x > 0 }
+    # does GCT only work on symmetric matrices?
+    return false unless shape[0] == shape[1]
+
+    return definite_check { |x| x > 0 } unless symmetric?
+
+    r, c = shape
+    radii = []
+
+    # GERSHGORIN CIRCLE THEOREM!!!
+    0.upto r - 1 do |i|
+      # retrieve row as a vector
+      v = row i
+
+      # remove (i, i)
+      v[i] = 0
+
+      radius = v.map { |x| x.abs }.sum(1)[0,0]
+
+      p radius
+
+      # if a circle goes in to the negatives, then it's not positive def.
+      # counterexample: { 20, 1; 10, 2}
+      # hao fix
+      return false unless v[i] - r[0][0] > 0 
+
+      radii.push [v[i] - r, v[i] + r]
+    end
+
+    # find min and max of radii and make sure they're in positive space
   end
 
   # TODO: WRITE TESTS FOR THIS
@@ -1050,7 +1080,7 @@ class NMatrix
 
   # TODO: WRITE TESTS FOR THIS
   def negative_definite?
-    definite_check { |x| < 0 }
+    definite_check { |x| x < 0 }
   end
 
   # This is how you write an individual element-wise operation function:
