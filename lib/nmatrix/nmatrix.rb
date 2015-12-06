@@ -1041,46 +1041,12 @@ class NMatrix
 
   def positive_definite?
     # check if all diagonal entries are positive
-    # does GCT only work on symmetric matrices?
-    return false unless shape[0] == shape[1]
-
-    return definite_check { |x| x > 0 } unless symmetric?
-
-    r, c = shape
-    radii = []
-
-    # GERSHGORIN CIRCLE THEOREM!!!
-    0.upto r - 1 do |i|
-      # retrieve row as a vector
-      v = row i
-
-      # remove (i, i)
-      v[i] = 0
-
-      radius = v.map { |x| x.abs }.sum(1)[0,0]
-
-      p radius
-
-      # if a circle goes in to the negatives, then it's not positive def.
-      # counterexample: { 20, 1; 10, 2}
-      # hao fix
-      return false unless v[i] - r[0][0] > 0 
-
-      radii.push [v[i] - r, v[i] + r]
-    end
-
-    # find min and max of radii and make sure they're in positive space
+    definite_check { |x| x > 0 }
   end
 
-  # TODO: WRITE TESTS FOR THIS
   def positive_semidefinite?
     # check if all diagonal entries are nonnegative
     definite_check { |x| x >= 0 }
-  end
-
-  # TODO: WRITE TESTS FOR THIS
-  def negative_definite?
-    definite_check { |x| x < 0 }
   end
 
   # This is how you write an individual element-wise operation function:
@@ -1188,5 +1154,3 @@ require_relative './shortcuts.rb'
 require_relative './math.rb'
 require_relative './enumerate.rb'
 
-require_relative './version.rb'
-require_relative './blas.rb'

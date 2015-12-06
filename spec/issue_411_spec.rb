@@ -69,12 +69,12 @@ describe 'issue 411' do
 
   # positive semidefinite
 
-  xit "returns true for a 3x3 matrix with one nonpositive (0) submatrix determinant" do
+  it "returns true for a 3x3 matrix with one nonpositive (0) submatrix determinant" do
     n = NMatrix.new([3,3], [2,-1,-1,-1,2,-1,-1,-1,2])
     expect(n.positive_semidefinite?).to eq(true)
   end
 
-  xit "returns false for a 3x3 negative definite matrix" do
+  it "returns false for a 3x3 negative definite matrix" do
     n = NMatrix.new([3,3], [-10,1,10,1,1,-10,19,20,1])
     expect(n.positive_semidefinite?).to eq(false)
   end
