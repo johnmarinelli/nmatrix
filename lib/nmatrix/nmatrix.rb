@@ -1041,7 +1041,44 @@ class NMatrix
 
   def positive_definite?
     # check if all diagonal entries are positive
-    definite_check { |x| x > 0 }
+    # does GCT only work on symmetric matrices?
+    return false unless shape[0] == shape[1]
+
+    return definite_check { |x| x > 0 } unless symmetric?
+
+    r, c = shape
+    row_radii = []
+    col_radii = []
+
+    # GERSHGORIN CIRCLE THEOREM!!!
+    0.upto r - 1 do |i|
+      # retrieve row as a vector
+      rv = row i
+      cv = col i
+
+      # save diagonals in tmp var
+      rdiag = rv[i]
+      cdiag = cv[i]
+
+      # don't add diagonals
+      rv[i] = 0
+      cv[i] = 0
+
+      rradius = rv.map { |x| x.abs }.sum(1)[0]
+      cradius = cv.map { |x| x.abs }.sum(0)[0]
+
+      rrange = [rdiag - rradius, rdiag + rradius]
+      crange = [cdiag - cradius, cdiag + cradius]
+
+      p 'row range: ' 
+      p rrange
+      p 'col range: '
+      p crange
+      if !((rrange[0] > 0 and rrange[1] > 0) or (crange[0] > 0 and crange[1] > 0))
+        return false
+      end
+    end
+    true
   end
 
   def positive_semidefinite?
