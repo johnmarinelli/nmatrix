@@ -1049,10 +1049,25 @@ class NMatrix
     definite_check { |x| x >= 0 }
   end
 
-  # This is how you write an individual element-wise operation function:
-  #def __list_elementwise_add__ rhs
-  #  self.__list_map_merged_stored__(rhs){ |l,r| l+r }.cast(self.stype, NMatrix.upcast(self.dtype, rhs.dtype))
+  ## TODO: this needs the lapacke gem to work (svd).  where should i put this
+  ## write tests
+  #def full_rank?
+  #  sigmas = self.gesvd[1].to_a.flatten
+  #  tol = self.shape.max * sigmas.max * Float::EPSILON
+
+  #  sigmas.map { |x| x > tol ? 1 : 0 }.reduce(:+) == self.shape.min
   #end
+
+  ## TODO: this needs the lapacke gem to work (svd).  where should i put this
+  ## write tests
+  #def rank_deficient?
+  #  return !full_rank?
+  #end
+
+  # This is how you write an individual element-wise operation function:
+  def __list_elementwise_add__ rhs
+    self.__list_map_merged_stored__(rhs){ |l,r| l+r }.cast(self.stype, NMatrix.upcast(self.dtype, rhs.dtype))
+  end
 protected
 
   def inspect_helper #:nodoc:

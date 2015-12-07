@@ -68,7 +68,6 @@ describe 'issue 411' do
   end
 
   # positive semidefinite
-
   it "returns true for a 3x3 matrix with one nonpositive (0) submatrix determinant" do
     n = NMatrix.new([3,3], [2,-1,-1,-1,2,-1,-1,-1,2])
     expect(n.positive_semidefinite?).to eq(true)
@@ -77,5 +76,22 @@ describe 'issue 411' do
   it "returns false for a 3x3 negative definite matrix" do
     n = NMatrix.new([3,3], [-10,1,10,1,1,-10,19,20,1])
     expect(n.positive_semidefinite?).to eq(false)
+  end
+
+  # full rank
+  it "returns full rank for identity matrix" do
+    n = NMatrix.eye(3)
+    expect(n.full_rank?).to be(false)
+  end
+
+  it "returns full rank for a full rank matrix" do
+    n = NMatrix.new([3,3], [81,51,89, 30, 2, 86, 92, 89, 60])
+    expect(n.full_rank?).to be(false)
+  end
+
+  # rank deficient
+  xit "returns true for a rank deficient matrix" do
+    n = NMatrix.eye(3)
+    expect(n.rank_deficient?).to be(true)
   end
 end
