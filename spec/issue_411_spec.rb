@@ -80,14 +80,15 @@ describe 'issue 411' do
 
   # full rank
   it "returns full rank for identity matrix" do
-    n = NMatrix.eye(3)
+    n = NMatrix.new([3,3], [1,0,0,0,1,0,0,0,1], :dtype => :float64)
     expect(n.full_rank?).to be(false)
   end
 
   it "returns full rank for a full rank matrix" do
-    n = NMatrix.new([3,3], [81,51,89, 30, 2, 86, 92, 89, 60])
+    n = NMatrix.new([3,3], [81,51,89, 30, 2, 86, 92, 89, 60], :dtype => :float64)
     expect(n.full_rank?).to be(false)
   end
+
 
   # rank deficient
   xit "returns true for a rank deficient matrix" do

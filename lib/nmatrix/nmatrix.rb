@@ -1051,12 +1051,12 @@ class NMatrix
 
   ## TODO: this needs the lapacke gem to work (svd).  where should i put this
   ## write tests
-  #def full_rank?
-  #  sigmas = self.gesvd[1].to_a.flatten
-  #  tol = self.shape.max * sigmas.max * Float::EPSILON
+  def full_rank?
+    sigmas = self.gesvd[1].to_a.flatten
+    tol = self.shape.max * sigmas.max * Float::EPSILON
 
-  #  sigmas.map { |x| x > tol ? 1 : 0 }.reduce(:+) == self.shape.min
-  #end
+    sigmas.map { |x| x > tol ? 1 : 0 }.reduce(:+) == self.shape.min
+  end
 
   ## TODO: this needs the lapacke gem to work (svd).  where should i put this
   ## write tests
