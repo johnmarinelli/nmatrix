@@ -212,8 +212,6 @@ class NMatrix
   end
 
   def get_rank(workspace_size=1)
-    # if it's a square matrix, save some computation time
-    # and just check if determinant is > 0
     sigmas = self.gesvd[1].to_a.flatten
     tol = self.shape.max * sigmas.max * Float::EPSILON
 
@@ -221,6 +219,8 @@ class NMatrix
   end
 
   def full_rank?
+    # if it's a square matrix, save some computation time
+    # and just check if determinant is > 0
     return self.det > 0 if self.shape[0] == self.shape[1]
     self.get_rank == self.shape.min
   end
