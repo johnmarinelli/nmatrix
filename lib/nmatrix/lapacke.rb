@@ -163,21 +163,6 @@ class NMatrix
         NMatrix::LAPACK::lapacke_gesdd(:row, :a, m, n, matrix, n, result[1], result[0], m, result[2], n)
         result
       end
-
-      # TODO: this needs the lapacke gem to work (svd).  where should i put this
-      # write tests
-      def full_rank?
-        sigmas = self.gesvd[1].to_a.flatten
-        tol = self.shape.max * sigmas.max * Float::EPSILON
-
-        sigmas.map { |x| x > tol ? 1 : 0 }.reduce(:+) == self.shape.min
-      end
-
-      # TODO: this needs the lapacke gem to work (svd).  where should i put this
-      # write tests
-      def rank_deficient?
-        return !full_rank?
-      end
     end
   end
 
@@ -229,7 +214,6 @@ class NMatrix
   def get_rank(workspace_size=1)
     # if it's a square matrix, save some computation time
     # and just check if determinant is > 0
-    return self.det > 0 if self.shape[0] == self.shape[1]
     sigmas = self.gesvd[1].to_a.flatten
     tol = self.shape.max * sigmas.max * Float::EPSILON
 
@@ -237,6 +221,7 @@ class NMatrix
   end
 
   def full_rank?
+    return self.det > 0 if self.shape[0] == self.shape[1]
     self.get_rank == self.shape.min
   end
 
