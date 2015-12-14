@@ -1039,6 +1039,11 @@ class NMatrix
     true
   end
 
+  def positive_definite?
+    # check if all diagonal entries are nonnegative
+    definite_check { |x| x > 0 }
+  end
+
   def positive_semidefinite?
     # check if all diagonal entries are nonnegative
     definite_check { |x| x >= 0 }
