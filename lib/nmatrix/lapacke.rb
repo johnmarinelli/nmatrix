@@ -227,7 +227,7 @@ class NMatrix
   end
 
   def get_rank(workspace_size=1)
-    sigmas = NMatrix::LAPACKE.gesvd self, workspace_size
+    sigmas = NMatrix::LAPACKE.gesvd(self, workspace_size).to_a.flatten
     #sigmas = self.gesvd[1].to_a.flatten
     tol = self.shape.max * sigmas.max * Float::EPSILON
 
@@ -239,7 +239,7 @@ class NMatrix
   end
 
   def rank_deficient?
-    return !full_rank?
+    !full_rank?
   end
 
 end
