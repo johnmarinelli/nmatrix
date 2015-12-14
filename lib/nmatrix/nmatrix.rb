@@ -1019,6 +1019,17 @@ class NMatrix
     new_matrix
   end
 
+  #
+  # call-seq:
+  #     definite_check(&cmp) -> boolean
+  #
+  # * *Arguments* :
+  #   - +&cmp+ -> comparator function
+  # * *Returns* :
+  #   - Boolean describing positive or negative definiteness of a matrix.  Uses Sylvester's Criterion.
+  #
+  # Warning: this function blows up if your matrix is more than 5000x5000.
+  # TODO: try gershgorin circle theorem to find definiteness.
   def definite_check(&cmp)
     # sylvesters theorem
     # first check if it's a square matrix
@@ -1039,11 +1050,25 @@ class NMatrix
     true
   end
 
+  #
+  # call-seq:
+  #     positive_definite? -> boolean
+  #
+  # * *Returns* :
+  #   - Boolean describing positive definiteness of a matrix.  Uses Sylvester's Criterion.
+  #
   def positive_definite?
-    # check if all diagonal entries are nonnegative
+    # check if all diagonal entries are positive
     definite_check { |x| x > 0 }
   end
 
+  #
+  # call-seq:
+  #     positive_semidefinite? -> boolean
+  #
+  # * *Returns* :
+  #   - Boolean describing positive semidefiniteness of a matrix.  Uses Sylvester's Criterion.
+  #
   def positive_semidefinite?
     # check if all diagonal entries are nonnegative
     definite_check { |x| x >= 0 }
