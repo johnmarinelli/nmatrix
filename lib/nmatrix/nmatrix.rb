@@ -1075,9 +1075,9 @@ class NMatrix
   end
 
   # This is how you write an individual element-wise operation function:
-  def __list_elementwise_add__ rhs
-    self.__list_map_merged_stored__(rhs){ |l,r| l+r }.cast(self.stype, NMatrix.upcast(self.dtype, rhs.dtype))
-  end
+  #def __list_elementwise_add__ rhs
+  #  self.__list_map_merged_stored__(rhs){ |l,r| l+r }.cast(self.stype, NMatrix.upcast(self.dtype, rhs.dtype))
+  #end
 protected
 
   def inspect_helper #:nodoc:
@@ -1178,4 +1178,6 @@ end
 require_relative './shortcuts.rb'
 require_relative './math.rb'
 require_relative './enumerate.rb'
+require_relative './version.rb'
+require_relative './blas.rb'
 

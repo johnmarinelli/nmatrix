@@ -317,7 +317,7 @@ describe "NMatrix::LAPACK functions with internal implementations" do
         n = NMatrix.new([3,3], [1,2,3,3,6,9,6,12,18], :dtype => dtype)
 
         begin 
-          expect(n.rank_deficient?).to be(false)
+          expect(n.rank_deficient?).to be(true)
         rescue NotImplementedError => e
           pending e.to_s
         end

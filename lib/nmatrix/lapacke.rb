@@ -210,23 +210,4 @@ class NMatrix
     NMatrix::LAPACK.lapacke_getrs(:row, :no_transpose, n, b.shape[1], clone, n, ipiv, x, b.shape[1])
     x
   end
-
-  def get_rank(workspace_size=1)
-    sigmas = self.gesvd[1].to_a.flatten
-    tol = self.shape.max * sigmas.max * Float::EPSILON
-
-    sigmas.map { |x| x > tol ? 1 : 0 }.reduce(:+)
-  end
-
-  def full_rank?
-    # if it's a square matrix, save some computation time
-    # and just check if determinant is > 0
-    return self.det > 0 if self.shape[0] == self.shape[1]
-    self.get_rank == self.shape.min
-  end
-
-  def rank_deficient?
-    !full_rank?
-  end
-
 end
