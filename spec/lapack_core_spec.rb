@@ -282,77 +282,77 @@ describe "NMatrix::LAPACK functions with internal implementations" do
       end
 
       # full rank
-      it "returns full rank for identity matrix" do
-        n = NMatrix.new([3,3], [1,0,0,0,1,0,0,0,1], :dtype => dtype)
+      #it "returns full rank for identity matrix" do
+      #  n = NMatrix.new([3,3], [1,0,0,0,1,0,0,0,1], :dtype => dtype)
 
-        begin 
-          expect(n.full_rank?).to be(true)
-        rescue NotImplementedError => e
-          pending e.to_s
-        end
-      end
+      #  begin 
+      #    expect(n.full_rank?).to be(true)
+      #  rescue NotImplementedError => e
+      #    pending e.to_s
+      #  end
+      #end
 
-      it "returns full rank for a full rank square matrix" do
-        n = NMatrix.new([3,3], [81,51,89, 30, 2, 86, 92, 89, 60], :dtype => dtype)
+      #it "returns full rank for a full rank square matrix" do
+      #  n = NMatrix.new([3,3], [81,51,89, 30, 2, 86, 92, 89, 60], :dtype => dtype)
 
-        begin 
-          expect(n.full_rank?).to be(true)
-        rescue NotImplementedError => e
-          pending e.to_s
-        end
-      end
+      #  begin 
+      #    expect(n.full_rank?).to be(true)
+      #  rescue NotImplementedError => e
+      #    pending e.to_s
+      #  end
+      #end
 
-      it "returns full rank for a full rank rectangular matrix" do
-        n = NMatrix.new([4,3], [1,2,3, 81,51,89, 30, 2, 86, 92, 89, 60], :dtype => dtype)
+      #it "returns full rank for a full rank rectangular matrix" do
+      #  n = NMatrix.new([4,3], [1,2,3, 81,51,89, 30, 2, 86, 92, 89, 60], :dtype => dtype)
 
-        begin 
-          expect(n.full_rank?).to be(true)
-        rescue NotImplementedError => e
-          pending e.to_s
-        end
-      end
+      #  begin 
+      #    expect(n.full_rank?).to be(true)
+      #  rescue NotImplementedError => e
+      #    pending e.to_s
+      #  end
+      #end
 
-      # rank deficient
-      it "returns rank deficient for a non-full rank matrix" do
-        n = NMatrix.new([3,3], [1,2,3,3,6,9,6,12,18], :dtype => dtype)
+      ## rank deficient
+      #it "returns rank deficient for a non-full rank matrix" do
+      #  n = NMatrix.new([3,3], [1,2,3,3,6,9,6,12,18], :dtype => dtype)
 
-        begin 
-          expect(n.rank_deficient?).to be(true)
-        rescue NotImplementedError => e
-          pending e.to_s
-        end
-      end
+      #  begin 
+      #    expect(n.rank_deficient?).to be(true)
+      #  rescue NotImplementedError => e
+      #    pending e.to_s
+      #  end
+      #end
 
-      # get rank of a matrix
-      it "returns rank 3 for a matrix of rank 3" do
-        n = NMatrix.new([3,3], [81,51,89, 30, 2, 86, 92, 89, 60], :dtype => dtype)
+      ## get rank of a matrix
+      #it "returns rank 3 for a matrix of rank 3" do
+      #  n = NMatrix.new([3,3], [81,51,89, 30, 2, 86, 92, 89, 60], :dtype => dtype)
 
-        begin 
-          expect(n.get_rank).to be(3)
-        rescue NotImplementedError => e
-          pending e.to_s
-        end
-      end
+      #  begin 
+      #    expect(n.get_rank).to be(3)
+      #  rescue NotImplementedError => e
+      #    pending e.to_s
+      #  end
+      #end
 
-      it "returns rank 2 for a matrix with 2 independent rows" do
-        n = NMatrix.new([3,3], [1,2,3,3,6,9, 92, 89, 60], :dtype => dtype)
+      #it "returns rank 2 for a matrix with 2 independent rows" do
+      #  n = NMatrix.new([3,3], [1,2,3,3,6,9, 92, 89, 60], :dtype => dtype)
 
-        begin 
-          expect(n.get_rank).to be(2)
-        rescue NotImplementedError => e
-          pending e.to_s
-        end
-      end
+      #  begin 
+      #    expect(n.get_rank).to be(2)
+      #  rescue NotImplementedError => e
+      #    pending e.to_s
+      #  end
+      #end
 
-      it "returns rank 1 for a matrix with a matrix with linearly dependent rows" do
-        n = NMatrix.new([3,3], [1,2,3,3,6,9,6,12,18], :dtype => dtype)
+      #it "returns rank 1 for a matrix with a matrix with linearly dependent rows" do
+      #  n = NMatrix.new([3,3], [1,2,3,3,6,9,6,12,18], :dtype => dtype)
 
-        begin 
-          expect(n.get_rank).to be(1)
-        rescue NotImplementedError => e
-          pending e.to_s
-        end
-      end
+      #  begin 
+      #    expect(n.get_rank).to be(1)
+      #  rescue NotImplementedError => e
+      #    pending e.to_s
+      #  end
+      #end
 
       it "calculates the singular value decomposition with NMatrix#gesdd" do
         #example from Wikipedia
