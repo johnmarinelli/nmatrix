@@ -179,6 +179,8 @@ static double get_time(void);
 ///////////////////
 
 void Init_nmatrix() {
+
+
 	///////////////////////
 	// Class Definitions //
 	///////////////////////
