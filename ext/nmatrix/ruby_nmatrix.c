@@ -179,8 +179,6 @@ static double get_time(void);
 ///////////////////
 
 void Init_nmatrix() {
-
-
 	///////////////////////
 	// Class Definitions //
 	///////////////////////
@@ -363,6 +361,12 @@ void Init_nmatrix() {
 	rb_define_alias(cNMatrix, "dim", "dimensions");
 	rb_define_alias(cNMatrix, "effective_dim", "effective_dimensions");
 	rb_define_alias(cNMatrix, "equal?", "eql?");
+
+  //////////////
+  // Epsilons //
+  //////////////
+  rb_define_const(cNMatrix, "FLOAT64_EPSILON", rb_const_get(rb_cFloat, rb_intern("EPSILON")));
+  rb_define_const(cNMatrix, "FLOAT32_EPSILON", DBL2NUM(FLT_EPSILON));
 
 	///////////////////////
 	// Symbol Generation //

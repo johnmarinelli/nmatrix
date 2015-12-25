@@ -627,12 +627,11 @@ class NMatrix
 
   def get_rank(workspace_size=1)
     sigmas = self.gesvd[1].to_a.flatten
-    eps = Float::EPSILON
+    eps = NMatrix::FLOAT64_EPSILON
 
     # epsilon depends on the width of the number
-    # TODO: where to set a 32_BIT_FLOAT_EPSILON and 64_BIT_FLOAT_EPSILON value in the c code?
     if (self.dtype == :float32 || self.dtype == :complex64) 
-      eps = 0.00000011920928955078125
+      eps = NMatrix::FLOAT32_EPSILON
     end
 
     tol = self.shape.max * sigmas.max * eps
